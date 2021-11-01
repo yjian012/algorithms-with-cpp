@@ -20,6 +20,7 @@ int main(){
     string filename="Detect segments intersects Sample.txt";
     ifstream fs;
     fs.open(filename);
+    if(!fs.good()) {fs.close();cout<<"can't find file!\n";return -1;}
     vector<vector<segment>> segments=read_input(fs);
     fs.close();
     /*pair<segment,segment> res0=intersect(segments[4]);
