@@ -1,0 +1,1 @@
+Given a set of points, find the farthest pair. First find the convex hull in O(n lg n) or O(nh), then find the farthest pair in O(h) time where h is the size of the convex hull, n is the number of points.
