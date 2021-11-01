@@ -30,7 +30,7 @@ const segment* below(set<segment,decltype(cmp)> &T,segment s){
 pair<segment,segment> intersect(vector<segment> &input){
     point z;
     segment g={z,z};
-    pair<segment,segment> r=make_pair(g,g);
+    pair<segment,segment> r=std::make_pair(g,g);
     for(int i=0;i<input.size();i++){//p1 must be to the left of p2
         if(input[i].p1.x>input[i].p2.x){
             point temp=input[i].p1;
@@ -56,19 +56,19 @@ pair<segment,segment> intersect(vector<segment> &input){
             auto test=T.insert(s);
             if(ab=above(T,s)){
                 if(seg_intersect(*ab,s)){
-                    return make_pair(*ab,s);
+                    return std::make_pair(*ab,s);
                 }
             }
             if(be=below(T,s)){
                 if(seg_intersect(*be,s)){
-                    return make_pair(*be,s);
+                    return std::make_pair(*be,s);
                 }
             }
         }
         else{
             if(ab=above(T,s)){
                 if(be=below(T,s)){
-                    if(seg_intersect(*ab,*be)) return make_pair(*ab,*be);
+                    if(seg_intersect(*ab,*be)) return std::make_pair(*ab,*be);
                 }
             }
             T.erase(s);
