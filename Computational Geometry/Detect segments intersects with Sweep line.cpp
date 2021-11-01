@@ -8,7 +8,7 @@ Output: The two line segments that are found to intersect. If there's no interse
 #include<iostream>
 #include<fstream>
 #include<set>
-#include<string>https://github.com/yjian012/algorithms-with-cpp/blob/main/Computational%20Geometry/Detect%20segments%20intersects%20with%20Sweep%20line
+#include<string>
 #include<vector>
 #include<algorithm>
 #include<cfloat>
