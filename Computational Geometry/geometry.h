@@ -1,3 +1,6 @@
+#ifndef _GEOMETRY_H
+#define _GEOMETRY_H
+
 #include<set>
 #include<vector>
 #include<algorithm>
@@ -46,3 +49,5 @@ bool seg_sort (segment a,segment b);
 void display(const vector<segment> &s);
 void display(const segment &s);
 void display(const set<segment,decltype(cmp)> &T);
+
+#endif
