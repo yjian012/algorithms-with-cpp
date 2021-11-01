@@ -6,6 +6,7 @@
 using std::cin;
 using std::cout;
 using std::string;
+using std::istream;
 
 void display(const vector<segment> &s){
     for(int i=0;i<s.size();i++){
