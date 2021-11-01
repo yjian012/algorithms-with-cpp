@@ -39,10 +39,10 @@ struct segment{
     point p1;
     point p2;
 };
-double direction(point pi,point pj,point pk){
+inline double direction(point pi,point pj,point pk){
     return (pk-pi)*(pj-pi);
 }
-bool on_seg(point pi,point pj,point pk){
+inline bool on_seg(point pi,point pj,point pk){
     if(min(pi.x,pj.x)<=pk.x&&pk.x<=max(pi.x,pj.x)&&min(pi.y,pj.y)<=pk.y&&pk.y<=max(pi.y,pj.y)) return true;
     return false;
 }
@@ -119,11 +119,6 @@ auto cmp=[](segment a,segment b){
     if(a.p1.x<b.p1.x) return direction(a.p1,b.p1,a.p2)>0;
     return direction(b.p1,a.p1,b.p2)<0;
 };
-struct cmp{
-    bool operator()(segment a,segment b) const {
-        return direction(b.p1,a.p1,b.p2)<0;
-    }
-};
 void display(const set<segment,decltype(cmp)> &T){
     auto it=T.begin();
     while(it!=T.end()){
@@ -131,10 +126,6 @@ void display(const set<segment,decltype(cmp)> &T){
         it++;
     }
     return;
-}
-bool compare(const segment a, segment b){
-    if(a.p1.x==b.p1.x&&a.p1.y==b.p1.y&&a.p2.x==b.p2.x&&a.p2.y==b.p2.y) return true;
-    else return false;
 }
 const segment* above(set<segment,decltype(cmp)> &T,segment s){
     auto it=T.find(s);
