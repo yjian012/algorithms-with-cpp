@@ -9,7 +9,10 @@ Output: The two line segments that are found to intersect. If there's no interse
 #include "../geometry_intersect.h"
 #include<fstream>
 #include<string>
+#include<vector>
 using std::string;
+using std::ifstream;
+using std::vector;
 int main(){
     string filename="Detect segments intersects Sample.txt";
     ifstream fs;
