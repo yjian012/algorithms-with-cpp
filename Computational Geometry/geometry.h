@@ -9,6 +9,7 @@
 using std::vector;
 using std::set;
 using std::pair;
+using std::istream;
 
 struct segment;
 struct point{
@@ -36,6 +37,8 @@ struct segment{
     point p1;
     point p2;
 };
+
+vector<vector<segment>> read_input(istream &is);
 inline double direction(point pi,point pj,point pk){
     return (pk-pi)*(pj-pi);
 }
@@ -48,6 +51,7 @@ bool seg_sort (segment a,segment b);
 
 void display(const vector<segment> &s);
 void display(const segment &s);
+
 
 auto cmp=[](segment a,segment b){
     if(a.p1.x<b.p1.x) return direction(a.p1,b.p1,a.p2)>0;
