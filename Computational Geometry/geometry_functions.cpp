@@ -22,10 +22,6 @@ void math_display(const vector<segment> &seg){
 void display(const segment &s){
     cout<<"{"<<s.p1.x<<","<<s.p1.y<<"},{"<<s.p2.x<<','<<s.p2.y<<"}\n";
 }
-auto cmp=[](segment a,segment b){
-    if(a.p1.x<b.p1.x) return direction(a.p1,b.p1,a.p2)>0;
-    return direction(b.p1,a.p1,b.p2)<0;
-};
 void display(const set<segment,decltype(cmp)> &T){
     auto it=T.begin();
     while(it!=T.end()){
