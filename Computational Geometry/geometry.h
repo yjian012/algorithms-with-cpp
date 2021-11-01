@@ -40,7 +40,7 @@ inline double direction(point pi,point pj,point pk){
     return (pk-pi)*(pj-pi);
 }
 inline bool on_seg(point pi,point pj,point pk){
-    if(min(pi.x,pj.x)<=pk.x&&pk.x<=max(pi.x,pj.x)&&min(pi.y,pj.y)<=pk.y&&pk.y<=max(pi.y,pj.y)) return true;
+    if(std::min(pi.x,pj.x)<=pk.x&&pk.x<=std::max(pi.x,pj.x)&&std::min(pi.y,pj.y)<=pk.y&&pk.y<=std::max(pi.y,pj.y)) return true;
     return false;
 }
 bool p_sort (point a,point b);
@@ -48,6 +48,11 @@ bool seg_sort (segment a,segment b);
 
 void display(const vector<segment> &s);
 void display(const segment &s);
+
+auto cmp=[](segment a,segment b){
+    if(a.p1.x<b.p1.x) return direction(a.p1,b.p1,a.p2)>0;
+    return direction(b.p1,a.p1,b.p2)<0;
+};
 void display(const set<segment,decltype(cmp)> &T);
 
 #endif
