@@ -36,7 +36,7 @@ int main(){
         result.push_back(intersect(segments[i]));
     }
     for(int i=0;i<result.size();i++){
-        if(result[i].first.p1.x==DBL_MIN){std::cout<<"No intersection\n*****************************\n";continue;}
+        if(isnan(result[i].first.p1.x)){std::cout<<"No intersection\n*****************************\n";continue;}
         std::cout<<"{"<<result[i].first.p1.x<<","<<result[i].first.p1.y<<"},{"<<result[i].first.p2.x<<","<<result[i].first.p2.y<<"} <-> {"<<result[i].second.p1.x<<","<<result[i].second.p1.y<<"},{"<<result[i].second.p2.x<<","<<result[i].second.p2.y<<"}\n";
         std::cout<<"*****************************"<<std::endl;
     }
