@@ -4,7 +4,7 @@
 #include<set>
 #include<vector>
 #include<algorithm>
-#include<cfloat>
+#include<limits>
 
 using std::vector;
 using std::set;
@@ -13,9 +13,9 @@ using std::istream;
 
 struct segment;
 struct point{
-    double x=DBL_MIN;
+    double x=std::numeric_limits<double>::signaling_NaN();
     int e=0;
-    double y=DBL_MIN;
+    double y=std::numeric_limits<double>::signaling_NaN();
     segment* seg=nullptr;
     point operator-(const point &p2){
         point p;
