@@ -3,9 +3,9 @@
 
 #include "geometry.h"
 
-bool seg_intersect(segment a, segment b);
-const segment* above(set<segment,decltype(cmp)> &T,segment s);
-const segment* below(set<segment,decltype(cmp)> &T,segment s);
+bool seg_intersect(const segment &a, const segment &b);
+const segment* above(const set<segment,decltype(cmp)> &T,const segment &s);
+const segment* below(const set<segment,decltype(cmp)> &T,const segment &s);
 pair<segment,segment> intersect(vector<segment> &input);
 
 #endif
