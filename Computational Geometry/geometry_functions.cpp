@@ -55,7 +55,7 @@ vector<vector<segment>> read_input(istream &is){
     }
     return r;
 }
-bool p_sort (point a,point b) {
+bool p_sort (const point &a,const point &b) {
     if(a.x<b.x) return true;
     else if(a.x==b.x){
         if(a.e<b.e) return true;
@@ -67,7 +67,7 @@ bool p_sort (point a,point b) {
     }
     else return false;
 }
-bool seg_sort (segment a,segment b) {//make sure p1.x<p2.x in both a and b
+bool seg_sort (const segment &a,const segment &b) {//make sure p1.x<p2.x in both a and b
     if(a.p1.x<b.p1.x) return true;
     else if(a.p1.x==b.p1.x){
         if(a.p2.x<b.p2.x) return true;
