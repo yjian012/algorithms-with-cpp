@@ -34,13 +34,25 @@ struct point{
         return (x*p2.y-p2.x*y);
     }
 };
+inline point operator-(const point &p1,const point &p2){
+    point p;
+    p.x=p1.x-p2.x;
+    p.y=p1.y-p2.y;
+    return p;
+}
+inline point operator+(const point &p1,const point &p2){
+    point p;
+    p.x=p1.x+p2.x;
+    p.y=p1.y+p2.y;
+    return p;
+}
 struct segment{
     point p1;
     point p2;
 };
 
 vector<vector<segment>> read_input(istream &is);
-inline double direction(point pi,point pj,point pk){
+inline double direction(const point &pi,const point &pj,const point &pk){
     return (pk-pi)*(pj-pi);
 }
 inline bool on_seg(const point &pi,const point &pj,const point &pk){
