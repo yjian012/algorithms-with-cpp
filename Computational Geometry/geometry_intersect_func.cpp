@@ -1,6 +1,6 @@
 #include "geometry_intersect.h"
 
-bool seg_intersect(segment a, segment b){
+bool seg_intersect(const segment &a,const segment &b){
     point p1=a.p1;point p2=a.p2;point p3=b.p1;point p4=b.p2;
     double d1=direction(p3,p4,p1);
     double d2=direction(p3,p4,p2);
@@ -13,14 +13,14 @@ bool seg_intersect(segment a, segment b){
     else if(d4==0&&on_seg(p1,p2,p4)) return true;
     else return false;
 }
-const segment* above(set<segment,decltype(cmp)> &T,segment s){
+const segment* above(const set<segment,decltype(cmp)> &T,const segment &s){
     auto it=T.find(s);
     if(it==T.end()) return nullptr;
     if(it==T.begin()) return nullptr;
     --it;
     return &(*it);
 }
-const segment* below(set<segment,decltype(cmp)> &T,segment s){
+const segment* below(const set<segment,decltype(cmp)> &T,const segment &s){
     auto it=T.find(s);
     if(it==T.end()) return nullptr;
     ++it;
