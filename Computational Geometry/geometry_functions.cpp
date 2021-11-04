@@ -50,7 +50,9 @@ vector<vector<segment>> read_input(istream &is){
         is>>t;
         is>>t;
         is>>x1>>t>>y1>>t>>t>>t>>x2>>t>>y2;
-        k.p1.x=x1;k.p1.y=y1;k.p2.x=x2;k.p2.y=y2;
+        if(x1<x2){k.p1.x=x1;k.p1.y=y1;k.p2.x=x2;k.p2.y=y2;}
+        else{k.p1.x=x2;k.p1.y=y2;k.p2.x=x1;k.p2.y=y1;}
+        k.p1.e=0;k.p2.e=1;
         s.push_back(k);
     }
     return r;
