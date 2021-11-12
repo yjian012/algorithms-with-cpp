@@ -31,7 +31,7 @@ void display(const set<segment,decltype(cmp)> &T){
     }
     return;
 }
-vector<vector<segment>> read_input(istream &is){
+bool read_input(istream &is,vector<vector<segment>> &r){
     char t;
     double x1,y1,x2,y2;
     segment k;
@@ -55,7 +55,12 @@ vector<vector<segment>> read_input(istream &is){
         k.p1.e=0;k.p2.e=1;
         s.push_back(k);
     }
-    return r;
+    if(r.size()==0) return false;
+    for(int i=0;i<r.size();i++){
+        for(int j=0;j<r[i].size();j++)
+            r[i][j].p1.seg=r[i][j].p2.seg=&r[i][j];
+    }
+    return true;
 }
 bool p_sort (const point &a,const point &b) {
     if(a.x<b.x) return true;
