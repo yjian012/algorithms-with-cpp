@@ -50,8 +50,8 @@ struct segment{
     point p1;
     point p2;
     segment(){point p;p1=p2=p;return;}
-    segment(point pa,point pb):p1(pa),p2(pb){}
-    segment(const segment &old):p1(old.p1),p2(old.p2){}
+    segment(point pa,point pb):p1(pa),p2(pb){}//beware that the pointer "seg" of "p1" and "p2" still points to the old segment where "pa" and "pb" is from
+    segment(const segment &old):p1(old.p1),p2(old.p2){}//same as above. write a "duplicate" function or something for duplicating points or segments.
     segment(segment&& old) noexcept:p1(std::move(old.p1)),p2(std::move(old.p2)){}
 };
 
