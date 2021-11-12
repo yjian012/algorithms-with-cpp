@@ -1,5 +1,5 @@
-#ifndef _GEOMETRY_INTERSECT_H
-#define _GEOMETRY_INTERSECT_H
+#ifndef GEOMETRY_INTERSECT_H_
+#define GEOMETRY_INTERSECT_H_
 
 #include "geometry.h"
 
