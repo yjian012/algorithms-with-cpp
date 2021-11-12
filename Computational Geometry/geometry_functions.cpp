@@ -43,8 +43,8 @@ bool read_input(istream &is,vector<vector<segment>> &r){
         //count++;
         while(t!='['&&t!='b') {is>>t;}
         if(t=='b'){
-            r.push_back(s);
-            s.clear();
+            r.push_back(std::move(s));
+            //s.clear();
             continue;
         }
         is>>t;
@@ -53,7 +53,7 @@ bool read_input(istream &is,vector<vector<segment>> &r){
         if(x1<x2||x1==x2&&y1<y2){k.p1.x=x1;k.p1.y=y1;k.p2.x=x2;k.p2.y=y2;}
         else{k.p1.x=x2;k.p1.y=y2;k.p2.x=x1;k.p2.y=y1;}
         k.p1.e=0;k.p2.e=1;
-        s.push_back(k);
+        s.push_back(std::move(k));
     }
     if(r.size()==0) return false;
     for(int i=0;i<r.size();i++){
