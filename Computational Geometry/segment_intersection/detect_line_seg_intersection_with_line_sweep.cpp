@@ -21,7 +21,8 @@ int main(){
     ifstream fs;
     fs.open(filename);
     if(!fs.good()) {fs.close();cout<<"can't find file!\n";return -1;}
-    vector<vector<segment>> segments=read_input(fs);
+    vector<vector<segment>> segments;
+    read_input(cin,segments);
     fs.close();
     /*pair<segment,segment> res0=intersect(segments[4]);
     //math_display(segments[4]);
