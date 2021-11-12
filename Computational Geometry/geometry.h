@@ -49,6 +49,10 @@ inline point operator+(const point &p1,const point &p2){
 struct segment{
     point p1;
     point p2;
+    segment(){point p;p1=p2=p;return;}
+    segment(point pa,point pb):p1(pa),p2(pb){}
+    segment(const segment &old):p1(old.p1),p2(old.p2){}
+    segment(segment&& old) noexcept:p1(std::move(old.p1)),p2(std::move(old.p2)){}
 };
 
 vector<vector<segment>> read_input(istream &is);
