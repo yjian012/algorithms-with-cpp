@@ -1,5 +1,5 @@
-#ifndef _GEOMETRY_H
-#define _GEOMETRY_H
+#ifndef GEOMETRY_H_
+#define GEOMETRY_H_
 
 #include<set>
 #include<vector>
