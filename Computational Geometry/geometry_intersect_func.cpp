@@ -27,10 +27,7 @@ const segment* below(const set<segment,decltype(cmp)> &T,const segment &s){
     if(it==T.end()) return nullptr;
     return &(*it);
 }
-pair<segment,segment> intersect(vector<segment> &input){
-    for(int i=0;i<input.size();i++){//p1 must be to the left of p2
-        input[i].p1.seg=input[i].p2.seg=&input[i];
-    }
+pair<segment,segment> intersect(const vector<segment> &input){//p1 must be to the left of p2, with pointers initialized to segments
     vector<point> points;
     for(int i=0;i<input.size();i++){
         points.push_back(input[i].p1);
