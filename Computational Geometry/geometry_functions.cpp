@@ -43,8 +43,8 @@ bool read_input(istream &is,vector<vector<segment>> &r){
         //count++;
         while(t!='['&&t!='b') {is>>t;}
         if(t=='b'){
-            r.push_back(s);
-            s.clear();
+            r.push_back(std::move(s));
+            s=vector<segment>();
             continue;
         }
         is>>t;
