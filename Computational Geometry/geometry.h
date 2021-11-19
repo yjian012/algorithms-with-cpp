@@ -70,8 +70,7 @@ void display(const vector<segment> &s);
 void display(const segment &s);
 
 auto cmp=[](const segment &a,const segment &b){
-    if(a.p1.x<b.p1.x) return direction(a.p1,b.p1,a.p2)>0;
-    return direction(b.p1,a.p1,b.p2)<0;
+    return a.p1.x<b.p1.x?direction(a.p1,b.p1,a.p2)>0:direction(b.p1,a.p1,b.p2)<0;
 };
 void display(const set<segment,decltype(cmp)> &T);
 
