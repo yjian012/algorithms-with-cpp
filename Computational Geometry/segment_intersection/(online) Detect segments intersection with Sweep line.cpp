@@ -126,9 +126,8 @@ bool p_sort (point a,point b) {
     }
     else return false;
 }
-auto cmp=[](segment a,segment b){
-    if(a.p1.x<b.p1.x) return direction(a.p1,b.p1,a.p2)>0;
-    return direction(b.p1,a.p1,b.p2)<0;
+auto cmp=[](const segment &a,const segment &b){
+    return a.p1.x<b.p1.x?direction(a.p1,b.p1,a.p2)>0:direction(b.p1,a.p1,b.p2)<0;
 };
 void display(const set<segment,decltype(cmp)> &T){
     auto it=T.begin();
