@@ -6,6 +6,7 @@
 #include<algorithm>
 //#include<cfloat>
 #include<limits>
+#include<iostream>
 
 struct segment;
 struct point{
