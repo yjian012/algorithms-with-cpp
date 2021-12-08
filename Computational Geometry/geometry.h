@@ -7,11 +7,6 @@
 //#include<cfloat>
 #include<limits>
 
-using std::vector;
-using std::set;
-using std::pair;
-using std::istream;
-
 struct segment;
 struct point{
     double x=std::numeric_limits<double>::signaling_NaN();
@@ -55,7 +50,7 @@ struct segment{
     segment(segment&& old) noexcept:p1(std::move(old.p1)),p2(std::move(old.p2)){}
 };
 
-vector<vector<segment>> read_input(istream &is);
+std::vector<std::vector<segment>> read_input(std::istream &is);
 inline double direction(const point &pi,const point &pj,const point &pk){
     return (pk-pi)*(pj-pi);
 }
@@ -66,12 +61,12 @@ inline bool on_seg(const point &pi,const point &pj,const point &pk){
 bool p_sort (const point &a,const point &b);
 bool seg_sort (const segment &a,const segment &b);
 
-void display(const vector<segment> &s);
+void display(const std::vector<segment> &s);
 void display(const segment &s);
 
 auto cmp=[](const segment &a,const segment &b){
     return a.p1.x<b.p1.x?direction(a.p1,b.p1,a.p2)>0:direction(b.p1,a.p1,b.p2)<0;
 };
-void display(const set<segment,decltype(cmp)> &T);
+void display(const std::set<segment,decltype(cmp)> &T);
 
 #endif
