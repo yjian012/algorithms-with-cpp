@@ -161,7 +161,7 @@ public:
             BlockMin[i]=Level[k];
             BlockMinInd[i]=k;
             unsigned int temp=0;
-            vector<int> t={0};
+            vector<int> t;
             for(int j=1;j<blockLength;++j){
                 if(Level[k+j]<BlockMin[i]){
                     BlockMin[i]=Level[k+j];
@@ -169,12 +169,9 @@ public:
                 }
                 if(Level[k+j]>Level[k+j-1]){
                     ++temp;
-                    t.emplace_back(1);
-                }
-                else{
-                    t.emplace_back(-1);
                 }
                 temp<<=1;
+                t.emplace_back(Level[k+j]);
             }
             TypeTab[i]=temp;
             if(LookUpTab.find(temp)==LookUpTab.end()) LookUpTab[temp]=makeTable(t,BlockMinInd[i]-k);
@@ -191,9 +188,6 @@ public:
         if(debug){
             cout<<"input +- config:";
             print(t);
-        }
-        for(int i=2;i<t.size();++i){
-            t[i]+=t[i-1];
         }
         vector<vector<int>> res(blockLength);
         for(int i=0;i<blockLength;++i){
