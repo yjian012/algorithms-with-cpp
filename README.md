@@ -2,4 +2,4 @@
 
 -std=c++11
 
-Based on CLRS.
+Based on CLRS, and other resources.
