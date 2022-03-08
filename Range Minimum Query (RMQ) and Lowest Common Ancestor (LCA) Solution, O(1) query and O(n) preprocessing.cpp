@@ -1,3 +1,4 @@
+//Note: https://hyper-meta.blogspot.com/2022/03/efficient-solution-to-range-minimum.html
 #include <iostream>
 #include <iomanip>
 #include <vector>
