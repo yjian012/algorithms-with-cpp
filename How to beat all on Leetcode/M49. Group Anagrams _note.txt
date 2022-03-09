@@ -1,4 +1,4 @@
 Another triumph of custom hash map.
 This time, my submission is not the fastest one - but it's the fastest CORRECT submisssion.
-There is a "14ms submission" which is still this fast now, but the problem is, it's wrong. I explained it here: https://leetcode.com/problems/group-anagrams/discuss/1725661/C%2B%2B%3A-Implementing-a-Hash-table
+There is a "14ms submission", but the problem is, it's wrong. I explained it here: https://leetcode.com/problems/group-anagrams/discuss/1725661/C%2B%2B%3A-Implementing-a-Hash-table
 And I fixed the mistake without affecting the performance too much.
