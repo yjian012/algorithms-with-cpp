@@ -1,0 +1,3 @@
+Another triumph of custom hash map.
+Submission page: https://leetcode.com/submissions/detail/633332685/
+The second fastest submission, the "sample 164 ms submission" actually takes 360ms now. It's actually terrible.
