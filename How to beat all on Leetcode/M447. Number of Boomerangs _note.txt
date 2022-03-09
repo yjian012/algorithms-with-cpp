@@ -1,0 +1,3 @@
+The power of a custom hash map. It's extremely fast. The only downside is that you have to know the cardinality of the set of possible inputs and be able to find a prime number which is a few times larger than that efficiently.
+Submission page: https://leetcode.com/submissions/detail/652925823/
+The second one, "sample 88 ms submission", actually has a runtime of 152ms now when I submitted it for testing, probably because of the changes in test cases / server configurations. So this solution is actually much faster.
