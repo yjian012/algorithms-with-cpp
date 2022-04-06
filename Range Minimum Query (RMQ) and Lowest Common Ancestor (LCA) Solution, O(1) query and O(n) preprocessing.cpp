@@ -12,11 +12,17 @@ class SparseTable{
 public:
     SparseTable(){
     }
-    SparseTable(const vector<T>& A){
-        build(A);
+    SparseTable(const vector<T>& A):copy(A){
+        build();
+    }
+    SparseTable(const vector<T>&& A):copy(A){
+        build();
     }
     void build(const vector<T>& A){
         copy=A;
+        build();
+    }
+    void build(){
         const size_t n=copy.size();
         if(n==0) return;
         tab.reserve(8*sizeof(int)-__builtin_clz(n));
@@ -69,18 +75,24 @@ public:
     bool debug=false;
     RMQ(){
     }
-    RMQ(const vector<T> &A){
-        build(A);
+    RMQ(const vector<T> &A):copy(A){
+        build();
+    }
+    RMQ(const vector<T> &&A):copy(A){
+        build();
     }
     void build(const vector<T> &A){
         copy=A;
+        build();
+    }
+    void build(){
         if(copy.size()<=2) return;
-        tree.resize(A.size());
-        vector<size_t> st(A.size());
+        tree.resize(copy.size());
+        vector<size_t> st(copy.size());
         long k,top=-1;
-        for(size_t i=0;i<A.size();++i){
+        for(size_t i=0;i<copy.size();++i){
             k=top;
-            while(k>=0&&A[st[k]]>A[i]) --k;
+            while(k>=0&&copy[st[k]]>copy[i]) --k;
             if(k!=-1) {tree[i].parent=st[k];tree[st[k]].right=i;}
             if(k<top) {tree[st[k+1]].parent=i;tree[i].left=st[k+1];}
             st[++k]=i;
