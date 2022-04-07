@@ -15,10 +15,14 @@ public:
     SparseTable(const vector<T>& A):copy(A){
         build();
     }
-    SparseTable(const vector<T>&& A):copy(A){
+    SparseTable(vector<T>&& A):copy(A){
         build();
     }
     void build(const vector<T>& A){
+        copy=A;
+        build();
+    }
+    void build(vector<T>&& A){
         copy=A;
         build();
     }
@@ -78,10 +82,14 @@ public:
     RMQ(const vector<T> &A):copy(A){
         build();
     }
-    RMQ(const vector<T> &&A):copy(A){
+    RMQ(vector<T> &&A):copy(A){
         build();
     }
     void build(const vector<T> &A){
+        copy=A;
+        build();
+    }
+    void build(vector<T> &&A){
         copy=A;
         build();
     }
