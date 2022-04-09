@@ -1,7 +1,7 @@
 Runtime: 275 ms, faster than 100.00% of C++ online submissions for Max Sum of Rectangle No Larger Than K.
 Memory Usage: 10.4 MB, less than 99.25% of C++ online submissions for Max Sum of Rectangle No Larger Than K.
 
-The second fastest submission at the current moment, "sample 296 ms submission", now has 550 ms runtime and 83 MB memory usage.
+The second fastest submission at the current moment on the submission detail page, "sample 296 ms submission", now has 550 ms runtime and 83 MB memory usage.
 
 My code uses an O(m^2*n^2) algorithm. So why does it beat an O(min(m,n)^2 * max(m,n)log(max(m,n))) algorithm?
 
