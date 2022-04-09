@@ -1,0 +1,6 @@
+Runtime: 275 ms, faster than 100.00% of C++ online submissions for Max Sum of Rectangle No Larger Than K.
+Memory Usage: 10.4 MB, less than 99.25% of C++ online submissions for Max Sum of Rectangle No Larger Than K.
+
+This is an O(m^2*n^2) algorithm. So why does it beat O(min(m,n)^2 * max(m,n)log(max(m,n))) algorithm?
+It's simply because 1 <= m, n <= 100. If one of them is much larger, of course the latter algorithm would be faster.
+Another reason is, array access and memset are really fast, on the other hand constructing a set is slow. So it's actually better to choose a simple int[] for this input size than using set, even though the complexity is higher.
