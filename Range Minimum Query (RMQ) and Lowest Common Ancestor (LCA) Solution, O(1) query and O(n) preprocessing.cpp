@@ -51,6 +51,11 @@ public:
         }
     }
     size_t queryIdx(size_t i,size_t j){
+        if(i>=copy.size()||j>copy.size()||i==j) throw std::out_of_range("range error");
+        if(i>j){
+            cout<<"Lower bound is larger than upper bound. Bounds are swapped."<<endl;
+            swap(i,j);
+        }
         int d=8*sizeof(int)-__builtin_clz(j-i)-1;
         auto a=tab[d][i],b=tab[d][j-(1<<d)];
         return copy[a]<copy[b]?a:b;
@@ -152,8 +157,11 @@ public:
         }
     }
     size_t queryIdx(size_t u,size_t v){//from u to v, inclusive
-        if(u>=copy.size()||v>=copy.size()) throw;
-        if(copy.empty()) throw;
+        if(copy.empty()||u>=copy.size()||v>=copy.size())  throw std::out_of_range("range error");
+        if(u>v){
+            cout<<"Lower bound is larger than upper bound. Bounds are swapped."<<endl;
+            swap(u,v);
+        }
         if(copy.size()==1) return 0;
         if(copy.size()==2) return copy[u]<=copy[v]?u:v;
         if(u==v) return u;
