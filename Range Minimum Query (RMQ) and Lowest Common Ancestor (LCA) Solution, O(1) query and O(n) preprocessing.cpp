@@ -81,47 +81,6 @@ class RMQ{
     vector<size_t> BlockMinInd;
     vector<unsigned int> TypeTab;
     unordered_map<unsigned int,vector<vector<int>>> LookUpTab;
-public:
-    bool debug=false;
-    RMQ(){
-    }
-    RMQ(const vector<T> &A):copy(A){
-        build();
-    }
-    RMQ(vector<T> &&A):copy(A){
-        build();
-    }
-    void build(const vector<T> &A){
-        copy=A;
-        build();
-    }
-    void build(vector<T> &&A){
-        copy=A;
-        build();
-    }
-    void build(){
-        if(copy.size()<=2) return;
-        tree.resize(copy.size());
-        vector<size_t> st(copy.size());
-        long k,top=-1;
-        for(size_t i=0;i<copy.size();++i){
-            k=top;
-            while(k>=0&&copy[st[k]]>copy[i]) --k;
-            if(k!=-1) {tree[i].parent=st[k];tree[st[k]].right=i;}
-            if(k<top) {tree[st[k+1]].parent=i;tree[i].left=st[k+1];}
-            st[++k]=i;
-            top=k;
-        }
-        tree[st[0]].parent=-1;
-        root=st[0];
-        RMQtoLCAT();
-        if(debug){
-            cout<<"E="; print(EulerSeq);
-            cout<<"L="; print(Level);
-            cout<<"H="; print(VisitOrd);
-        }
-        LCATtoRMQL();
-    }
     void RMQtoLCAT(){
         EulerSeq.resize(2*tree.size()-1);
         Level.resize(2*tree.size()-1);
@@ -156,24 +115,6 @@ public:
             Level[h]=l;
             VisitOrd[node]=h;
         }
-    }
-    size_t queryIdx(size_t u,size_t v){//from u to v, inclusive
-        if(copy.empty()||u>=copy.size()||v>=copy.size())  throw std::out_of_range("range error");
-        if(u>v){
-            cout<<"Lower bound is larger than upper bound. Bounds are swapped."<<endl;
-            swap(u,v);
-        }
-        if(copy.size()==1) return 0;
-        if(copy.size()==2) return copy[u]<=copy[v]?u:v;
-        if(u==v) return u;
-        if(VisitOrd[u]>VisitOrd[v]) swap(u,v);
-        if(debug){
-            cout<<"sending queryRMQL("<<VisitOrd[u]<<","<<VisitOrd[v]<<")\n";
-        }
-        return EulerSeq[queryRMQL(VisitOrd[u],VisitOrd[v])];
-    }
-    T queryMin(size_t u,size_t v){//from u to v, inclusive
-        return copy[queryIdx(u,v)];
     }
     void LCATtoRMQL(){
         int rest=Level.size()%blockLength;
@@ -297,6 +238,65 @@ public:
                 cout<<j<<" ";
             cout<<endl;
         }
+    }
+public:
+    bool debug=false;
+    RMQ(){
+    }
+    RMQ(const vector<T> &A):copy(A){
+        build();
+    }
+    RMQ(vector<T> &&A):copy(A){
+        build();
+    }
+    void build(const vector<T> &A){
+        copy=A;
+        build();
+    }
+    void build(vector<T> &&A){
+        copy=A;
+        build();
+    }
+    void build(){
+        if(copy.size()<=2) return;
+        tree.resize(copy.size());
+        vector<size_t> st(copy.size());
+        long k,top=-1;
+        for(size_t i=0;i<copy.size();++i){
+            k=top;
+            while(k>=0&&copy[st[k]]>copy[i]) --k;
+            if(k!=-1) {tree[i].parent=st[k];tree[st[k]].right=i;}
+            if(k<top) {tree[st[k+1]].parent=i;tree[i].left=st[k+1];}
+            st[++k]=i;
+            top=k;
+        }
+        tree[st[0]].parent=-1;
+        root=st[0];
+        RMQtoLCAT();
+        if(debug){
+            cout<<"E="; print(EulerSeq);
+            cout<<"L="; print(Level);
+            cout<<"H="; print(VisitOrd);
+        }
+        LCATtoRMQL();
+    }
+    size_t queryIdx(size_t u,size_t v){//from u to v, inclusive
+        if(copy.empty()||u>=copy.size()||v>=copy.size())  throw std::out_of_range("range error");
+        if(u>v){
+            cout<<"Lower bound is larger than upper bound. Bounds are swapped."<<endl;
+            swap(u,v);
+        }
+        if(copy.size()==1) return 0;
+        if(copy.size()==2) return copy[u]<=copy[v]?u:v;
+        if(u==v) return u;
+        if(VisitOrd[u]>VisitOrd[v]) swap(u,v);
+        if(debug){
+            cout<<"sending queryRMQL("<<VisitOrd[u]<<","<<VisitOrd[v]<<")\n";
+        }
+        return EulerSeq[queryRMQL(VisitOrd[u],VisitOrd[v])];
+    }
+    T queryMin(size_t u,size_t v){//from u to v, inclusive
+        return copy[queryIdx(u,v)];
     }
 };
 int main()
