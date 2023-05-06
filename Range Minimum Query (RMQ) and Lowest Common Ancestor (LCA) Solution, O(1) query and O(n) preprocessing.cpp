@@ -10,20 +10,22 @@ template<typename T>
 class SparseTable{
     vector<T> copy;
     vector<vector<size_t>> tab;
+    bool _modeMin=true;
 public:
-    SparseTable(){
-    }
-    SparseTable(const vector<T>& A):copy(A){
+    SparseTable(bool modeMin=true):_modeMin(modeMin){}
+    SparseTable(const vector<T>& A,bool modeMin=true):copy(A),_modeMin(modeMin){
         build();
     }
-    SparseTable(vector<T>&& A):copy(A){
+    SparseTable(vector<T>&& A,bool modeMin=true):copy(A),_modeMin(modeMin){
         build();
     }
-    void build(const vector<T>& A){
+    void build(const vector<T>& A,bool modeMin=true){
+        _modeMin=modeMin;
         copy=A;
         build();
     }
-    void build(vector<T>&& A){
+    void build(vector<T>&& A,bool modeMin=true){
+        _modeMin=modeMin;
         copy=A;
         build();
     }
@@ -41,15 +43,19 @@ public:
             vector<size_t> t(n-l+1);
             for(size_t i=0;i<n-l+1;++i){
                 auto a=tab.back()[i],b=tab.back()[i+l/2];
-                t[i]=copy[a]<copy[b]?a:b;
+                t[i]=comp(copy[a],copy[b])?a:b;
             }
             tab.emplace_back(move(t));
             l*=2;
         }
         if(tab.back().size()>1){
             auto a=tab.back().front(),b=tab.back().back();
-            tab.emplace_back(vector<size_t>{copy[a]<copy[b]?a:b});
+            tab.emplace_back(vector<size_t>{comp(copy[a],copy[b])?a:b});
         }
+    }
+    bool comp(T a,T b){
+        if(_modeMin) return a<b;
+        return a>b;
     }
     size_t queryIdx(size_t i,size_t j){
         if(i>=copy.size()||j>copy.size()||i==j) throw std::out_of_range("range error");
@@ -59,15 +65,20 @@ public:
         }
         int d=8*sizeof(int)-__builtin_clz(j-i)-1;
         auto a=tab[d][i],b=tab[d][j-(1<<d)];
-        return copy[a]<copy[b]?a:b;
+        return comp(copy[a],copy[b])?a:b;
     }
-    T queryMin(size_t i,size_t j){
+    T query(size_t i,size_t j){
         return copy[queryIdx(i,j)];
     }
+    string mode(){
+        return _modeMin?"Minimum query":"Maximum query";
+    }
 };
+
 template<typename T>
 class RMQ{
     vector<T> copy;
+    bool _modeMin=true;
     struct node{
         size_t parent;
         size_t left=-1;
@@ -81,6 +92,10 @@ class RMQ{
     vector<size_t> BlockMinInd;
     vector<unsigned int> TypeTab;
     unordered_map<unsigned int,vector<vector<int>>> LookUpTab;
+    bool comp(T a,T b){
+        if(_modeMin) return a<b;
+        return a>b;
+    }
     void RMQtoLCAT(){
         EulerSeq.resize(2*tree.size()-1);
         Level.resize(2*tree.size()-1);
@@ -241,20 +256,21 @@ class RMQ{
     }
 public:
     bool debug=false;
-    RMQ(){
-    }
-    RMQ(const vector<T> &A):copy(A){
+    RMQ(bool modeMin=true):_modeMin(modeMin){}
+    RMQ(const vector<T> &A,bool modeMin=true):copy(A),_modeMin(modeMin){
         build();
     }
-    RMQ(vector<T> &&A):copy(A){
+    RMQ(vector<T> &&A,bool modeMin=true):copy(A),_modeMin(modeMin){
         build();
     }
-    void build(const vector<T> &A){
+    void build(const vector<T> &A,bool modeMin=true){
         copy=A;
+        _modeMin=modeMin;
         build();
     }
-    void build(vector<T> &&A){
+    void build(vector<T> &&A,bool modeMin=true){
         copy=A;
+        _modeMin=modeMin;
         build();
     }
     void build(){
@@ -264,7 +280,7 @@ public:
         long k,top=-1;
         for(size_t i=0;i<copy.size();++i){
             k=top;
-            while(k>=0&&copy[st[k]]>copy[i]) --k;
+            while(k>=0&&comp(copy[i],copy[st[k]])) --k;
             if(k!=-1) {tree[i].parent=st[k];tree[st[k]].right=i;}
             if(k<top) {tree[st[k+1]].parent=i;tree[i].left=st[k+1];}
             st[++k]=i;
@@ -295,8 +311,11 @@ public:
         }
         return EulerSeq[queryRMQL(VisitOrd[u],VisitOrd[v])];
     }
-    T queryMin(size_t u,size_t v){//from u to v, inclusive
+    T query(size_t u,size_t v){//from u to v, inclusive
         return copy[queryIdx(u,v)];
+    }
+    string mode(){
+        return _modeMin?"Minimum query":"Maximum query";
     }
 };
 int main()
@@ -311,15 +330,15 @@ int main()
     cout<<endl;
     RMQ<int> r;
     r.debug=0;
-    r.build(A);
+    r.build(A,false);
     /*
     cout<<"query result: ";
     cout<<r.queryMin(0,8)<<endl;
     */
-    SparseTable<int> st(A);
+    SparseTable<int> st(A,false);
     for(int i=0;i<A.size()-1;++i){
         for(int j=i+1;j<A.size();++j){
-            int r1=r.queryMin(i,j),r2=st.queryMin(i,j+1);
+            int r1=r.query(i,j),r2=st.query(i,j+1);
             if(r1!=r2){
                 cout<<"i="<<i<<",j="<<j<<",r1="<<r1<<",r2="<<r2<<endl;
                 return 0;
