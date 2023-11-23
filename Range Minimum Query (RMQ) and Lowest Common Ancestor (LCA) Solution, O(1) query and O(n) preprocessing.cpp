@@ -221,7 +221,7 @@ class RMQ{
         if(debug) cout<<"query l="<<l<<",r="<<r<<endl;
         size_t res=-1;
         if(l>r+1){
-            res=BlockMinInd[ST.queryIdx(l-1,l)]+LookUpTab[TypeTab[l-1]][a%blockLength][b%blockLength];
+            res=BlockMinInd[ST.queryIdx(l-1,l)]+LookUpTab.find(TypeTab[l-1])->second[a%blockLength][b%blockLength];
             if(debug) cout<<"in one block, result="<<res<<endl;
             return res;
         }
@@ -230,12 +230,12 @@ class RMQ{
             if(debug) cout<<"block query, result="<<res<<endl;
         }
         if(lrest){
-            size_t temp=BlockMinInd[ST.queryIdx(l-1,l)]+LookUpTab[TypeTab[l-1]][a%blockLength][blockLength-1];
+            size_t temp=BlockMinInd[ST.queryIdx(l-1,l)]+LookUpTab.find(TypeTab[l-1])->second[a%blockLength][blockLength-1];
             if(res==-1||Level[res]>Level[temp]) res=temp;
             if(debug) cout<<"left query, temp="<<temp<<", result="<<res<<endl;
         }
         if(rrest){
-            size_t temp=BlockMinInd[ST.queryIdx(r+1,r+2)]+LookUpTab[TypeTab[r+1]][0][b%blockLength];
+            size_t temp=BlockMinInd[ST.queryIdx(r+1,r+2)]+LookUpTab.find(TypeTab[r+1])->second[0][b%blockLength];
             if(res==-1||Level[res]>Level[temp]) res=temp;
             if(debug) cout<<"right query, temp="<<temp<<", result="<<res<<endl;
         }
