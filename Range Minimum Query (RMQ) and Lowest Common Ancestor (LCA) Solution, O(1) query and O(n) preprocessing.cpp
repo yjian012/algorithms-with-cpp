@@ -11,24 +11,6 @@ class SparseTable{
     vector<T> copy;
     vector<vector<size_t>> tab;
     bool _modeMin=true;
-public:
-    SparseTable(bool modeMin=true):_modeMin(modeMin){}
-    SparseTable(const vector<T>& A,bool modeMin=true):copy(A),_modeMin(modeMin){
-        build();
-    }
-    SparseTable(vector<T>&& A,bool modeMin=true):copy(A),_modeMin(modeMin){
-        build();
-    }
-    void build(const vector<T>& A,bool modeMin=true){
-        _modeMin=modeMin;
-        copy=A;
-        build();
-    }
-    void build(vector<T>&& A,bool modeMin=true){
-        _modeMin=modeMin;
-        copy=A;
-        build();
-    }
     void build(){
         const size_t n=copy.size();
         if(n==0) return;
@@ -53,11 +35,29 @@ public:
             tab.emplace_back(vector<size_t>{comp(copy[a],copy[b])?a:b});
         }
     }
-    bool comp(T a,T b){
+public:
+    SparseTable(bool modeMin=true):_modeMin(modeMin){}
+    SparseTable(const vector<T>& A,bool modeMin=true):copy(A),_modeMin(modeMin){
+        build();
+    }
+    SparseTable(vector<T>&& A,bool modeMin=true):copy(A),_modeMin(modeMin){
+        build();
+    }
+    void build(const vector<T>& A,bool modeMin=true){
+        _modeMin=modeMin;
+        copy=A;
+        build();
+    }
+    void build(vector<T>&& A,bool modeMin=true){
+        _modeMin=modeMin;
+        copy=A;
+        build();
+    }
+    bool comp(T a,T b)const{
         if(_modeMin) return a<b;
         return a>b;
     }
-    size_t queryIdx(size_t i,size_t j){
+    size_t queryIdx(size_t i,size_t j)const{
         if(i>=copy.size()||j>copy.size()||i==j) throw std::out_of_range("range error");
         if(i>j){
             cout<<"Lower bound is larger than upper bound. Bounds are swapped."<<endl;
@@ -67,10 +67,10 @@ public:
         auto a=tab[d][i],b=tab[d][j-(1<<d)];
         return comp(copy[a],copy[b])?a:b;
     }
-    T query(size_t i,size_t j){
+    T query(size_t i,size_t j)const{
         return copy[queryIdx(i,j)];
     }
-    string mode(){
+    string mode()const{
         return _modeMin?"Minimum query":"Maximum query";
     }
 };
@@ -92,9 +92,32 @@ class RMQ{
     vector<size_t> BlockMinInd;
     vector<unsigned int> TypeTab;
     unordered_map<unsigned int,vector<vector<int>>> LookUpTab;
-    bool comp(T a,T b){
+    bool comp(T a,T b)const{
         if(_modeMin) return a<b;
         return a>b;
+    }
+    void build(){
+        if(copy.size()<=2) return;
+        tree.resize(copy.size());
+        vector<size_t> st(copy.size());
+        long k,top=-1;
+        for(size_t i=0;i<copy.size();++i){
+            k=top;
+            while(k>=0&&comp(copy[i],copy[st[k]])) --k;
+            if(k!=-1) {tree[i].parent=st[k];tree[st[k]].right=i;}
+            if(k<top) {tree[st[k+1]].parent=i;tree[i].left=st[k+1];}
+            st[++k]=i;
+            top=k;
+        }
+        tree[st[0]].parent=-1;
+        root=st[0];
+        RMQtoLCAT();
+        if(debug){
+            cout<<"E="; print(EulerSeq);
+            cout<<"L="; print(Level);
+            cout<<"H="; print(VisitOrd);
+        }
+        LCATtoRMQL();
     }
     void RMQtoLCAT(){
         EulerSeq.resize(2*tree.size()-1);
@@ -192,7 +215,7 @@ class RMQ{
         }
         return res;
     }
-    size_t queryRMQL(size_t a,size_t b){//from a to b, inclusive
+    size_t queryRMQL(size_t a,size_t b)const{//from a to b, inclusive
         bool lrest=a%blockLength,rrest=(b+1)%blockLength;
         int l=a/blockLength+lrest,r=b/blockLength-rrest;
         if(debug) cout<<"query l="<<l<<",r="<<r<<endl;
@@ -218,7 +241,7 @@ class RMQ{
         }
         return res;
     }
-    void printTour(){
+    void printTour()const{
         cout<<"pare :";
         for(auto i:tree){
             cout<<setw(2)<<(int)i.parent<<" ";
@@ -235,19 +258,19 @@ class RMQ{
         }
         cout<<endl;
     }
-    void print(const vector<size_t> &v){
+    void print(const vector<size_t> &v)const{
         for(auto i:v){
             cout<<(int)i<<" ";
         }
         cout<<endl;
     }
-    void print(const vector<int> &v){
+    void print(const vector<int> &v)const{
         for(auto i:v){
             cout<<i<<" ";
         }
         cout<<endl;
     }
-    void print(const vector<vector<int>> &v){
+    void print(const vector<vector<int>> &v)const{
         for(auto &i:v){
             for(auto j:i)
                 cout<<j<<" ";
@@ -273,30 +296,7 @@ public:
         _modeMin=modeMin;
         build();
     }
-    void build(){
-        if(copy.size()<=2) return;
-        tree.resize(copy.size());
-        vector<size_t> st(copy.size());
-        long k,top=-1;
-        for(size_t i=0;i<copy.size();++i){
-            k=top;
-            while(k>=0&&comp(copy[i],copy[st[k]])) --k;
-            if(k!=-1) {tree[i].parent=st[k];tree[st[k]].right=i;}
-            if(k<top) {tree[st[k+1]].parent=i;tree[i].left=st[k+1];}
-            st[++k]=i;
-            top=k;
-        }
-        tree[st[0]].parent=-1;
-        root=st[0];
-        RMQtoLCAT();
-        if(debug){
-            cout<<"E="; print(EulerSeq);
-            cout<<"L="; print(Level);
-            cout<<"H="; print(VisitOrd);
-        }
-        LCATtoRMQL();
-    }
-    size_t queryIdx(size_t u,size_t v){//from u to v, inclusive
+    size_t queryIdx(size_t u,size_t v)const{//from u to v, inclusive
         if(copy.empty()||u>=copy.size()||v>=copy.size())  throw std::out_of_range("range error");
         if(u>v){
             cout<<"Lower bound is larger than upper bound. Bounds are swapped."<<endl;
@@ -311,10 +311,10 @@ public:
         }
         return EulerSeq[queryRMQL(VisitOrd[u],VisitOrd[v])];
     }
-    T query(size_t u,size_t v){//from u to v, inclusive
+    T query(size_t u,size_t v)const{//from u to v, inclusive
         return copy[queryIdx(u,v)];
     }
-    string mode(){
+    string mode()const{
         return _modeMin?"Minimum query":"Maximum query";
     }
 };
