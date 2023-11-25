@@ -5,12 +5,12 @@
 #include <vector>
 #include <utility>
 #include <unordered_map>
-using namespace std;
-template<typename T>
+using std::cout,std::endl,std::vector,std::unordered_map,std::string,std::swap,std::setw;
+template<typename T,typename Compare=std::less<T>>
 class SparseTable{
     vector<T> copy;
     vector<vector<size_t>> tab;
-    bool _modeMin=true;
+    Compare comp;
     void build(){
         const size_t n=copy.size();
         if(n==0) return;
@@ -36,26 +36,20 @@ class SparseTable{
         }
     }
 public:
-    SparseTable(bool modeMin=true):_modeMin(modeMin){}
-    SparseTable(const vector<T>& A,bool modeMin=true):copy(A),_modeMin(modeMin){
+    SparseTable(){}
+    SparseTable(const vector<T>& A):copy(A){
         build();
     }
-    SparseTable(vector<T>&& A,bool modeMin=true):copy(A),_modeMin(modeMin){
+    SparseTable(vector<T>&& A):copy(A){
         build();
     }
-    void build(const vector<T>& A,bool modeMin=true){
-        _modeMin=modeMin;
+    void build(const vector<T>& A){
         copy=A;
         build();
     }
-    void build(vector<T>&& A,bool modeMin=true){
-        _modeMin=modeMin;
+    void build(vector<T>&& A){
         copy=A;
         build();
-    }
-    bool comp(T a,T b)const{
-        if(_modeMin) return a<b;
-        return a>b;
     }
     size_t queryIdx(size_t i,size_t j)const{
         if(i>=copy.size()||j>copy.size()||i==j) throw std::out_of_range("range error");
@@ -70,15 +64,12 @@ public:
     T query(size_t i,size_t j)const{
         return copy[queryIdx(i,j)];
     }
-    string mode()const{
-        return _modeMin?"Minimum query":"Maximum query";
-    }
 };
 
-template<typename T>
+template<typename T,typename Compare=std::less<T>>
 class RMQ{
     vector<T> copy;
-    bool _modeMin=true;
+    Compare comp;
     struct node{
         size_t parent;
         size_t left=-1;
@@ -92,10 +83,6 @@ class RMQ{
     vector<size_t> BlockMinInd;
     vector<unsigned int> TypeTab;
     unordered_map<unsigned int,vector<vector<int>>> LookUpTab;
-    bool comp(T a,T b)const{
-        if(_modeMin) return a<b;
-        return a>b;
-    }
     void build(){
         if(copy.size()<=2) return;
         tree.resize(copy.size());
@@ -279,21 +266,19 @@ class RMQ{
     }
 public:
     bool debug=false;
-    RMQ(bool modeMin=true):_modeMin(modeMin){}
-    RMQ(const vector<T> &A,bool modeMin=true):copy(A),_modeMin(modeMin){
+    RMQ(){}
+    RMQ(const vector<T> &A):copy(A){
         build();
     }
-    RMQ(vector<T> &&A,bool modeMin=true):copy(A),_modeMin(modeMin){
+    RMQ(vector<T> &&A):copy(A){
         build();
     }
-    void build(const vector<T> &A,bool modeMin=true){
+    void build(const vector<T> &A){
         copy=A;
-        _modeMin=modeMin;
         build();
     }
-    void build(vector<T> &&A,bool modeMin=true){
+    void build(vector<T> &&A){
         copy=A;
-        _modeMin=modeMin;
         build();
     }
     size_t queryIdx(size_t u,size_t v)const{//from u to v, inclusive
@@ -314,12 +299,8 @@ public:
     T query(size_t u,size_t v)const{//from u to v, inclusive
         return copy[queryIdx(u,v)];
     }
-    string mode()const{
-        return _modeMin?"Minimum query":"Maximum query";
-    }
 };
-int main()
-{
+int main(){
     vector<int> A{4,48,6,94,75,6,39,7,1,0,4,78,56,91,73,1,3,73,57,8,2,62,7,1,0,7,75,478,52,97,274,19,84,68,75,9,37,4};
     cout<<"input size: "<<A.size()<<endl;
     cout<<"input:";
@@ -328,14 +309,14 @@ int main()
     cout<<"index:";
     for(int i=0;i<A.size();++i) cout<<setw(2)<<i<<" ";
     cout<<endl;
-    RMQ<int> r;
+    RMQ<int,std::greater<int>> r;
     r.debug=0;
-    r.build(A,false);
+    r.build(A);
     /*
     cout<<"query result: ";
     cout<<r.queryMin(0,8)<<endl;
     */
-    SparseTable<int> st(A,false);
+    SparseTable<int,std::greater<int>> st(A);
     for(int i=0;i<A.size()-1;++i){
         for(int j=i+1;j<A.size();++j){
             int r1=r.query(i,j),r2=st.query(i,j+1);
